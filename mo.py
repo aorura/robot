@@ -4,6 +4,7 @@
 # GPIO 라이브러리
 import wiringpi
 import sys
+import time
 
 class _GetchUnix:
     def __init__(self):
@@ -54,6 +55,11 @@ IN2 = 23
 IN3 = 22
 IN4 = 21
 
+# For GPIO
+LEFT_INFRA = 11
+RIGHT_INFRA = 31
+TRIGGER = 5
+ECHO = 10
 
 # 핀 설정 함수
 def setPinConfig(EN, INA, INB):
@@ -61,6 +67,12 @@ def setPinConfig(EN, INA, INB):
     wiringpi.pinMode(INA, OUTPUT)
     wiringpi.pinMode(INB, OUTPUT)
     wiringpi.softPwmCreate(EN, 0, 255)
+
+def setPinIO():
+    wiringpi.pinMode(LEFT_INFRA, INPUT)
+    wiringpi.pinMode(RIGHT_INFRA, INPUT)
+    wiringpi.pinMode(ECHO, INPUT)
+    wiringpi.pinMode(TRIGER, OUTPUT)
 
 # 모터 제어 함수
 def setMotorContorl(PWM, INA, INB, speed, stat):
@@ -93,8 +105,29 @@ wiringpi.wiringPiSetup()
 #모터 핀 설정
 setPinConfig(ENA, IN1, IN2)
 setPinConfig(ENB, IN3, IN4)
+setPinIO()
 
-if __name__ == '__main__':
+def distance():
+    wringpi.digitalWrite(TRIGGER, HIGH)
+    sleep(0.00001)
+    wringpi.digitalWrite(TRIGGER, LOW)
+
+    StartTime = 0
+    StopTime = 0
+
+    while wringpi.digitalRead(ECHO) == 0:
+        StartTime = time.time()
+
+    while wringpi.digitalRead(ECHO) == 1:
+        StopTime = time.time()
+
+    TimeElapsed = StopTime - StartTime
+    distance = (TimeElapsed * 34300) / 2
+
+    return distance
+
+
+
 #제어 시작
 c=''
 extra_go=0
