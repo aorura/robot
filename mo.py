@@ -72,7 +72,7 @@ def setPinIO():
     wiringpi.pinMode(LEFT_INFRA, INPUT)
     wiringpi.pinMode(RIGHT_INFRA, INPUT)
     wiringpi.pinMode(ECHO, INPUT)
-    wiringpi.pinMode(TRIGER, OUTPUT)
+    wiringpi.pinMode(TRIGGER, OUTPUT)
 
 # 모터 제어 함수
 def setMotorContorl(PWM, INA, INB, speed, stat):
@@ -108,17 +108,17 @@ setPinConfig(ENB, IN3, IN4)
 setPinIO()
 
 def distance():
-    wringpi.digitalWrite(TRIGGER, HIGH)
-    sleep(0.00001)
-    wringpi.digitalWrite(TRIGGER, LOW)
+    wiringpi.digitalWrite(TRIGGER, HIGH)
+    time.sleep(0.00001)
+    wiringpi.digitalWrite(TRIGGER, LOW)
 
     StartTime = 0
     StopTime = 0
 
-    while wringpi.digitalRead(ECHO) == 0:
+    while wiringpi.digitalRead(ECHO) == 0:
         StartTime = time.time()
 
-    while wringpi.digitalRead(ECHO) == 1:
+    while wiringpi.digitalRead(ECHO) == 1:
         StopTime = time.time()
 
     TimeElapsed = StopTime - StartTime
@@ -126,8 +126,19 @@ def distance():
 
     return distance
 
+if __name__ == '__main__':
+    try:
+        while True:
+            dist = distance()
+            print ("Measured Distance = %.1f cm" % dist)
+            print("")
+            time.sleep(1)
 
+        # Reset by pressing CTRL + C
+    except KeyboardInterrupt:
+        print("Measurement stopped by User")
 
+"""
 #제어 시작
 c=''
 extra_go=0
@@ -185,7 +196,7 @@ while c != 'q':
 
 print("done")
             
-
+"""
 # FORWARD, BACKWARD, STOP
 
 
