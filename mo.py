@@ -56,8 +56,8 @@ IN3 = 22
 IN4 = 21
 
 # For GPIO
-LEFT_INFRA = 11
-RIGHT_INFRA = 31
+LEFT_SIDE = 11
+RIGHT_SIDE = 31
 TRIGGER = 5
 ECHO = 10
 
@@ -126,11 +126,18 @@ def distance():
 
     return distance
 
+def detectHuman():
+    rightSide = wiringpi.digitalRead(RIGHT_SIDE)
+    leftSide = wiringpi.digitalRead(LEFT_SIDE)
+
+    return leftSide, rightSide
+
 if __name__ == '__main__':
     try:
         while True:
             dist = distance()
-            print ("Measured Distance = %.1f cm" % dist)
+            leftSide, rightSide = detectHuman()
+            print ("Measured Distance = %.1f cm, Left: %d, Right: %d" % (dist, leftSide, rightSide))
             print("")
             time.sleep(1)
 
