@@ -137,8 +137,9 @@ if __name__ == '__main__':
         while True:
             dist = distance()
             leftSide, rightSide = detectHuman()
-            print ("Measured Distance = %.1f cm, Left: %d, Right: %d" % (dist, leftSide, rightSide))
-            print("")
+            print ("Measured Distance = %.1f cm, Left: %d, Right: %d\n" % (dist, leftSide, rightSide))
+            
+            if (dist <= MINIMUM_DISTANCE_THRESHOLD):
             time.sleep(1)
 
         # Reset by pressing CTRL + C
