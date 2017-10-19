@@ -132,6 +132,22 @@ def detectHuman():
 
     return leftSide, rightSide
 
+def stop():
+	setMotor(CH1, 100, STOP)
+	setMotor(CH2, 100, STOP)
+
+def goLeft():
+        setMotor(CH1, 150, FORWARD)
+        setMotor(CH2, 100, FORWARD)
+
+def goRight():
+        setMotor(CH1, 100, FORWARD)
+        setMotor(CH2, 150, FORWARD)
+
+def goStraight():
+        setMotor(CH1, 100, FORWARD)
+        setMotor(CH2, 100, FORWARD)
+
 if __name__ == '__main__':
     try:
         while True:
@@ -140,6 +156,16 @@ if __name__ == '__main__':
             print ("Measured Distance = %.1f cm, Left: %d, Right: %d\n" % (dist, leftSide, rightSide))
             
             if (dist <= MINIMUM_DISTANCE_THRESHOLD):
+				stop()
+			elif leftSide == 1 and rightSide == 1:
+				goStraight()
+			elif leftSise == 1 and rightSide == 0:
+				goLeft()
+			elif leftSide == 0 and rightSide == 1:
+				goRight()
+			elif leftSide == 0 and rightSide == 0:
+				goStraight()
+
             time.sleep(1)
 
         # Reset by pressing CTRL + C
